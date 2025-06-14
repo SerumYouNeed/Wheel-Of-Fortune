@@ -8,7 +8,6 @@ public class Main {
     public static void main (String[] args) {
 
         Player player = new Player(1000);
-//        int playerMoney = 1000;
         int prise = 10000;
         String proverb = "KOT W BUTACH";
         String input;
