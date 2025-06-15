@@ -9,7 +9,7 @@ public class Main {
 
         Player player = new Player(1000);
         int prise = 10000;
-        String proverb = "KOT W BUTACH";
+        String proverb = "MALA SYRENKA";
         String input;
         String proverbMasked = maskingProverb(proverb);
 
