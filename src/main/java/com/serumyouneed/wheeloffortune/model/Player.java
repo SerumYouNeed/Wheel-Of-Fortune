@@ -28,6 +28,7 @@ public class Player {
 
     /**
      * Function increase player's money balance
+     *
      * @param amount (int): added value to account
      */
     public void addMoney(int amount) {

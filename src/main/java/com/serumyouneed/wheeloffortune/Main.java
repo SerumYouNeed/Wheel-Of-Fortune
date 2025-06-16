@@ -2,6 +2,8 @@ package com.serumyouneed.wheeloffortune;
 
 import com.serumyouneed.wheeloffortune.model.Player;
 import com.serumyouneed.wheeloffortune.model.Wheel;
+import com.serumyouneed.wheeloffortune.utils.RealSleeper;
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +15,7 @@ public class Main {
         String input;
         String proverbMasked = maskingProverb(proverb);
 
-        Wheel fortuneWheel = new Wheel();
+        Wheel fortuneWheel = new Wheel(new RealSleeper());
 
         Scanner scanner = new Scanner(System.in);
 
@@ -24,7 +26,6 @@ public class Main {
             System.out.println();
             int wheelReward = fortuneWheel.switchToField(fortuneWheel.spinTheWheel());
             if (wheelReward == 0) {
-                player.setMoney(0);
                 balanceDisplay(player.getMoney());
                 System.out.println("Bad luck... Try again later!");
             }
