@@ -73,7 +73,7 @@ public class Wheel {
 
     /**
      * Function generates random number between 1-7 (included)
-     * @return (int) field
+     * @return (int) switchToField(Random int)
      */
     public int spinTheWheel() {
         Random random = new Random();
