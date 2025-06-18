@@ -38,14 +38,13 @@ This project is a console-based version of the classic game, where player spin a
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/wheel-of-fortune.git
+git clone https://github.com/yourusername/Wheel-Of-Fortune.git
 cd wheel-of-fortune
 
 # Compile and run (Maven)
 mvn compile
-mvn exec:java -Dexec.mainClass="your.package.Main"
+mvn exec:java -Dexec.mainClass="com.serumyouneed.wheeloffortune.Main"
 ```
-Make sure to replace your.package.Main with your actual main class.
 
 ---
 
