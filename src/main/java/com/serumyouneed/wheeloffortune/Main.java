@@ -1,19 +1,29 @@
 package com.serumyouneed.wheeloffortune;
 
+import com.serumyouneed.wheeloffortune.dao.MovieDao;
+import com.serumyouneed.wheeloffortune.database.DatabaseConnection;
+import com.serumyouneed.wheeloffortune.model.Movie;
 import com.serumyouneed.wheeloffortune.model.Player;
+import com.serumyouneed.wheeloffortune.model.Puzzle;
 import com.serumyouneed.wheeloffortune.model.Wheel;
 import com.serumyouneed.wheeloffortune.utils.RealSleeper;
 
+import java.sql.Connection;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main (String[] args) {
 
+        Random random = new Random();
+
+        List<Movie> movies = loadFromDatabase();
+        Puzzle puzzle = new Puzzle(movies.get(random.nextInt(0, movies.size())));
+
         Player player = new Player(1000);
         int prise = 10000;
-        String proverb = "MALA SYRENKA";
         String input;
-        String proverbMasked = maskingProverb(proverb);
 
         Wheel fortuneWheel = new Wheel(new RealSleeper());
 
@@ -22,7 +32,7 @@ public class Main {
         boolean answer = false;
         while(!answer) {
             System.out.println();
-            System.out.println(proverbMasked);
+            System.out.println(puzzle.getPartiallyMaskedPuzzle());
             System.out.println();
             int wheelReward = fortuneWheel.switchToField(fortuneWheel.spinTheWheel());
             if (wheelReward == 0) {
@@ -37,9 +47,9 @@ public class Main {
                     scanner.nextLine();
                     input = scanner.next().toUpperCase();
                     if (input.length() == 1 && "AEIOU".contains(input)) {
-                        int foundVowels = foundLetterCounter(proverb, input);
+                        int foundVowels = foundLetterCounter(puzzle.getPuzzle(), input);
                         player.setMoney(buyVowel(player.getMoney()) + (foundVowels * wheelReward));
-                        proverbMasked = newDisplay(proverbMasked, proverb, input);
+                        puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
                         balanceDisplay(player.getMoney());
                     } else {
                         System.out.println("That is not a vowel.");
@@ -51,9 +61,9 @@ public class Main {
                     scanner.nextLine();
                     input = scanner.nextLine().toUpperCase();
                     if (input.length() == 1 && "BCDFGHJKLMNPQRSTVWXYZ".contains(input.toUpperCase())) {
-                        int foundConsonant = foundLetterCounter(proverb, input);
+                        int foundConsonant = foundLetterCounter(puzzle.getPuzzle(), input);
                         player.setMoney(buyConsonant(player.getMoney()) + (foundConsonant * wheelReward));
-                        proverbMasked = newDisplay(proverbMasked, proverb, input);
+                        puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
                         balanceDisplay(player.getMoney());
                     } else {
                         System.out.println("That is not a consonant.");
@@ -65,7 +75,7 @@ public class Main {
                     System.out.print("Your guess is: ");
                     scanner.nextLine();
                     input = scanner.nextLine().toUpperCase();
-                    answer = guessingProverb(input, proverb);
+                    answer = guessingProverb(input, puzzle.getPuzzle());
                     if (answer) {
                         player.setMoney(player.getMoney() + prise);
                         balanceDisplay(player.getMoney());
@@ -91,40 +101,7 @@ public class Main {
             return false;
         }
     }
-    static String newDisplay (String proverbMasked, String proverb, String input) {
-        StringBuilder updated = new StringBuilder(proverbMasked);
-        boolean found = false;
 
-        for (int i = 0; i < proverb.length(); i++) {
-            if (proverb.charAt(i) == input.charAt(0)) {
-                updated.setCharAt(i, input.charAt(0));
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.printf("We don't have \"%s\". Try again.%n", input);
-        }
-
-        return updated.toString();
-    }
-
-    /**
-     * Function masking an input string
-     * @param proverb (String)
-     * @return (String): Letters covered by '_'. Spaces stays.
-     */
-    static String maskingProverb(String proverb) {
-        StringBuilder masked = new StringBuilder();
-        for (int i = 0; i < proverb.length(); i++) {
-            if (proverb.charAt(i) == ' ') {
-                masked.append(' ');
-            } else {
-                masked.append('_');
-            }
-        }
-        return masked.toString();
-    }
     static int buyVowel (int money) {
         return money - 100;
     }
@@ -142,5 +119,15 @@ public class Main {
             }
         }
         return counter;
-    }}
+    }
 
+    public static List<Movie> loadFromDatabase() {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            MovieDao movieDao = new MovieDao(conn);
+            return movieDao.getAllMovies();
+        } catch (Exception e) {
+            System.out.println("Database error: " + e.getMessage());
+            return null;
+        }
+    }
+}

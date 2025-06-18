@@ -17,9 +17,8 @@ public class Wheel {
 
     /**
      * Function simulates fields of wheel with prises for uncovered letter as multiplier.
-     * @param random:
-     *              Generate number simulating spin of the wheel.
-     * @return (int) multiplier
+     * @param random      (int): Generate number simulating spin of the wheel.
+     * @return multiplier (int): How many times will be multiplied each uncovered letter
      */
     public int switchToField(int random) {
         int multiplier = 0;
@@ -73,12 +72,12 @@ public class Wheel {
 
     /**
      * Function generates random number between 1-7 (included)
-     * @return (int) switchToField(Random int)
+     * @return field (int): Selected number
      */
     public int spinTheWheel() {
         Random random = new Random();
         int field;
         field = random.nextInt(1, 8);
-        return  switchToField(field);
+        return  field;
     }
 }
