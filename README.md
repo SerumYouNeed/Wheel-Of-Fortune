@@ -1,22 +1,25 @@
 # 🎡 Wheel of Fortune Game
 
-A simple multiplayer *Wheel of Fortune* game implemented in Java.
+A super fun version of classic *Wheel of Fortune* game implemented in Java.
 
-This project is a console-based version of the classic game, where players take turns spinning a wheel and guessing letters in hidden phrases. Includes support for categories like proverbs, movies, and famous actors (to be backed by a database in future versions).
+This project is a console-based version of the classic game, where player spin a wheel and guess letters in hidden phrases. Includes support for categories like Disney animated movies, and famous actors (to be backed by a database in future versions).
 
 ---
 
 ## 🚀 Features (WIP)
 
-- Turn-based gameplay for multiple players
-- Random wheel spin mechanics
+- Connecion with puzzle database. 
+- Random wheel spin mechanics with field selector
 - Letter guessing and puzzle solving
-- Basic timer per turn
 - Console-based user interface
-- Planned: database integration with categories:
-  - 📜 Proverbs
-  - 🎬 Movie titles
-  - 🎭 Actors' names
+- Planned:
+  - database integration with categories:
+    - 📜 Proverbs
+    - 🎬 Movie titles
+    - 🎭 Actors' names
+  - multiplayer mode
+  - timer of round
+  - logging
 
 ---
 
@@ -24,6 +27,9 @@ This project is a console-based version of the classic game, where players take 
 
 - Java 17+
 - Maven
+- JDBC
+- PostgreSQL
+- JUnit5
 - IntelliJ IDEA
 
 ---
