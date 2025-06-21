@@ -56,4 +56,15 @@ class PuzzleTest {
         String expected = "___ _____ __ ____";
         assertEquals(expected, actual);
     }
+
+    @Test
+    void newDisplayMultipleLetters() {
+        Puzzle puzzle = new Puzzle(new Movie(1, "Java Jam", 1950));
+        puzzle.setMaskedPuzzle(puzzle.getPuzzle());
+        String input = "j";
+        String expected = "J___ J__";
+        String actual = puzzle.newDisplay(puzzle.getMaskedPuzzle(), puzzle.getPuzzle(), input);
+        assertEquals(expected, actual);
+    }
+
 }
