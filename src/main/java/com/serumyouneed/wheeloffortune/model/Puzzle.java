@@ -1,15 +1,35 @@
 package com.serumyouneed.wheeloffortune.model;
 
+import java.util.Random;
+
 public class Puzzle {
 
     private String puzzle;
     private String maskedPuzzle;
     private String partiallyMaskedPuzzle;
 
+    private enum Category {
+        MOVIE,
+        PROVERB
+    }
+
     public Puzzle(Movie movie) {
-        this.puzzle = movie.getTitle().toUpperCase();
-        this.maskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
-        this.partiallyMaskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
+        switch (selectCategory()) {
+            case MOVIE -> {
+                this.maskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
+                this.puzzle = movie.getTitle().toUpperCase();
+                this.partiallyMaskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
+            }
+            case PROVERB -> System.out.println("Time for a proverb.");
+        }
+
+    }
+
+    private Category selectCategory() {
+        Category[] categories = Category.values(); // tablica dostępnych kategorii
+        Random random = new Random();
+        int index = random.nextInt(categories.length); // losowy indeks
+        return categories[index];
     }
 
     public void setPuzzle(String puzzle) {
@@ -64,6 +84,10 @@ public class Puzzle {
         for (int i = 0; i < proverb.length(); i++) {
             if (proverb.charAt(i) == ' ') {
                 masked.append(' ');
+            } else if (proverb.charAt(i) == '\''){
+                masked.append('\'');
+            } else if (proverb.charAt(i) == '-') {
+                masked.append('-');
             } else {
                 masked.append('_');
             }

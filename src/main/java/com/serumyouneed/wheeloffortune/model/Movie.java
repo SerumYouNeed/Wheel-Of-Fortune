@@ -15,7 +15,7 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    // Getter
+    // Getters
     public int getId() {
         return id;
     }
@@ -28,7 +28,7 @@ public class Movie {
         return releaseYear;
     }
 
-    // toString do debugowania
+    // toString for debugging purpose
     @Override
     public String toString() {
         return title + " (" + releaseYear + ")";
