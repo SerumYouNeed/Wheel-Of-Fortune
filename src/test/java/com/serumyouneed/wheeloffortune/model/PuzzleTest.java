@@ -58,6 +58,14 @@ class PuzzleTest {
     }
 
     @Test
+    void maskingProverbWithApostrophe() {
+        String proverb = "JAVA'S FEATURES ARE USEFUL";
+        String actual = Puzzle.maskingProverb(proverb);
+        String expected = "____'_ ________ ___ ______";
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void newDisplayMultipleLetters() {
         Puzzle puzzle = new Puzzle(new Movie(1, "Java Jam", 1950));
         puzzle.setMaskedPuzzle(puzzle.getPuzzle());

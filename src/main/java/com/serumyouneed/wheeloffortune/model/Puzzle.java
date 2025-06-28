@@ -1,35 +1,19 @@
 package com.serumyouneed.wheeloffortune.model;
 
-import java.util.Random;
-
+/**
+ * This class create a puzzle for a game from any given guessable object.
+ */
 public class Puzzle {
 
     private String puzzle;
     private String maskedPuzzle;
     private String partiallyMaskedPuzzle;
 
-    private enum Category {
-        MOVIE,
-        PROVERB
-    }
+    public Puzzle(Guessable puzzle) {
+        this.maskedPuzzle = maskingProverb(puzzle.getText().toUpperCase());
+        this.puzzle = puzzle.getText().toUpperCase();
+        this.partiallyMaskedPuzzle = maskingProverb(puzzle.getText().toUpperCase());
 
-    public Puzzle(Movie movie) {
-        switch (selectCategory()) {
-            case MOVIE -> {
-                this.maskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
-                this.puzzle = movie.getTitle().toUpperCase();
-                this.partiallyMaskedPuzzle = maskingProverb(movie.getTitle().toUpperCase());
-            }
-            case PROVERB -> System.out.println("Time for a proverb.");
-        }
-
-    }
-
-    private Category selectCategory() {
-        Category[] categories = Category.values(); // tablica dostępnych kategorii
-        Random random = new Random();
-        int index = random.nextInt(categories.length); // losowy indeks
-        return categories[index];
     }
 
     public void setPuzzle(String puzzle) {

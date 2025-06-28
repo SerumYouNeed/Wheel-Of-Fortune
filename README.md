@@ -2,20 +2,18 @@
 
 A super fun version of classic *Wheel of Fortune* game implemented in Java.
 
-This project is a console-based version of the classic game, where player spin a wheel and guess letters in hidden phrases. Includes support for categories like Disney animated movies, and famous actors (to be backed by a database in future versions).
+This project is a console-based version of the classic game, where player spin a wheel and guess letters in hidden phrases. Includes support for categories like Disney animated movies, proverbs and famous actors.
 
 ---
 
 ## 🚀 Features (WIP)
 
-- Connecion with puzzle database. 
+- Connection with puzzle database. 
 - Random wheel spin mechanics with field selector
 - Letter guessing and puzzle solving
 - Console-based user interface
 - Planned:
   - database integration with categories:
-    - 📜 Proverbs
-    - 🎬 Movie titles
     - 🎭 Actors' names
   - multiplayer mode
   - timer of round
@@ -50,7 +48,6 @@ mvn exec:java -Dexec.mainClass="com.serumyouneed.wheeloffortune.Main"
 
 ## 📌 Planned Improvements
 
- Connect to a database of phrases and categories
  Add GUI version (React or Angular)
  Add multiplayer over network
  Add scoring system and statistics

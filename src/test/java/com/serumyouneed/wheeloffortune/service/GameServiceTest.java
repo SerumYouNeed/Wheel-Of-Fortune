@@ -1,9 +1,7 @@
 package com.serumyouneed.wheeloffortune.service;
 
-import com.serumyouneed.wheeloffortune.model.Movie;
-import com.serumyouneed.wheeloffortune.model.Player;
-import com.serumyouneed.wheeloffortune.model.Puzzle;
-import com.serumyouneed.wheeloffortune.model.Wheel;
+import com.serumyouneed.wheeloffortune.model.*;
+import com.serumyouneed.wheeloffortune.utils.CategorySelector;
 import com.serumyouneed.wheeloffortune.utils.RealSleeper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,24 +16,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTest {
 
-    @BeforeAll {
+    static {
         Random random = new Random();
 
-        List<Movie> movies = loadFromDatabase();
-        if (movies == null || movies.isEmpty()) {
+        CategorySelector.Category category = CategorySelector.selectCategory();
+
+        List<Guessable> puzzleList = loadFromDatabase(category);
+        if (puzzleList == null || puzzleList.isEmpty()) {
             System.out.println("No movies available. Exiting the game.");
         }
 
-        Puzzle puzzle = new Puzzle(movies.get(random.nextInt(0, movies.size())));
+        Puzzle puzzle = new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size())));
         Player player = new Player(1000);
         Wheel wheel = new Wheel(new RealSleeper());
         Scanner scanner = new Scanner(System.in);
 
-        GameService game = new GameService(scanner, puzzle, player, wheel, 1000);
+        GameService game = new GameService(scanner, CategorySelector.selectCategory(), puzzle, player, wheel, 1000);
         game.startGame();
-    }
 
-    @AfterAll {
         scanner.close();
     }
 

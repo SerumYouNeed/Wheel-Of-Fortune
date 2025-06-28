@@ -1,6 +1,7 @@
 package com.serumyouneed.wheeloffortune.dao;
 
-import com.serumyouneed.wheeloffortune.model.Movie;
+import com.serumyouneed.wheeloffortune.model.Guessable;
+import com.serumyouneed.wheeloffortune.model.Proverb;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,29 +10,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProverbDao {
+public class ProverbDao implements TheDaos{
     private final Connection conn;
 
     public ProverbDao(Connection conn) {
         this.conn = conn;
     }
 
-    public List<Movie> getAllProverbs() {
-        String sql = "SELECT id, proverb, meaning";
-        List<Movie> proverbs = new ArrayList<>();
+    public List<Guessable> getAll() {
+        String sql = "SELECT id, proverb, meaning FROM proverbs";
+        List<Guessable> proverbs = new ArrayList<>();
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                proverbs.add(new Movie(
+                proverbs.add(new Proverb(
                         rs.getInt("id"),
                         rs.getString("proverb"),
-                        rs.getInt("meaning")
+                        rs.getString("meaning")
                 ));
             }
         } catch (SQLException e) {
-            System.err.println("Error while downloading movies: " + e.getMessage());
+            System.err.println("Error while downloading proverb: " + e.getMessage());
         }
 
         return proverbs;

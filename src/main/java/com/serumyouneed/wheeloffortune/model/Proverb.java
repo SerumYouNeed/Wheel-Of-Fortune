@@ -4,7 +4,7 @@ package com.serumyouneed.wheeloffortune.model;
  * Supporting class to create Proverb object. Proverb field will be used as a puzzle string to mask during the game.
  *
  */
-public class Proverb {
+public class Proverb implements Guessable{
     private int id;
     private String proverb;
     private String meaning;
@@ -20,7 +20,7 @@ public class Proverb {
         return id;
     }
 
-    public String getProverb() {
+    public String getText() {
         return proverb;
     }
 

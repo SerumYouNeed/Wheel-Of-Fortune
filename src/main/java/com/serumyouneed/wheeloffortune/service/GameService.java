@@ -1,5 +1,6 @@
 package com.serumyouneed.wheeloffortune.service;
 
+import com.serumyouneed.wheeloffortune.utils.CategorySelector;
 import com.serumyouneed.wheeloffortune.model.Player;
 import com.serumyouneed.wheeloffortune.model.Puzzle;
 import com.serumyouneed.wheeloffortune.model.Wheel;
@@ -8,13 +9,15 @@ import java.util.Scanner;
 
 public class GameService {
     private final Scanner scanner;
+    private final CategorySelector.Category category;
     private final Puzzle puzzle;
     private final Player player;
     private final Wheel wheel;
     private final int price;
 
-    public GameService(Scanner scanner, Puzzle puzzle, Player player, Wheel wheel, int price) {
+    public GameService(Scanner scanner, CategorySelector.Category category, Puzzle puzzle, Player player, Wheel wheel, int price) {
         this.scanner = scanner;
+        this.category = category;
         this.puzzle = puzzle;
         this.player = player;
         this.wheel = wheel;
@@ -23,6 +26,7 @@ public class GameService {
 
     public void startGame() {
         boolean answer = false;
+        System.out.println("CATEGORY: " + category);
         while (!answer) {
             System.out.println();
             System.out.println(puzzle.getPartiallyMaskedPuzzle());
@@ -136,4 +140,8 @@ public class GameService {
     private String readUppercaseInput(Scanner scanner) {
         return scanner.nextLine().trim().toUpperCase();
     }
+
+    private CategorySelector.Category getCategory() {
+        return category;
     }
+}

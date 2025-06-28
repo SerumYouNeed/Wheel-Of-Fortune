@@ -4,7 +4,7 @@ package com.serumyouneed.wheeloffortune.model;
  * Supporting class to create Movie object. Title field will be used as a puzzle string to mask during the game.
  *
  */
-public class Movie {
+public class Movie implements Guessable{
     private int id;
     private String title;
     private int releaseYear;
@@ -20,7 +20,7 @@ public class Movie {
         return id;
     }
 
-    public String getTitle() {
+    public String getText() {
         return title;
     }
 

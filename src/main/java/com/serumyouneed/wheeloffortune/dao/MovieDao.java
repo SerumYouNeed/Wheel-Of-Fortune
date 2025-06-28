@@ -1,5 +1,6 @@
 package com.serumyouneed.wheeloffortune.dao;
 
+import com.serumyouneed.wheeloffortune.model.Guessable;
 import com.serumyouneed.wheeloffortune.model.Movie;
 
 import java.sql.Connection;
@@ -9,16 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDao {
+public class MovieDao implements TheDaos{
     private final Connection conn;
 
     public MovieDao(Connection conn) {
         this.conn = conn;
     }
 
-    public List<Movie> getAllMovies() {
+    public List<Guessable> getAll() {
         String sql = "SELECT id, title, release_year FROM disney_animated_movies";
-        List<Movie> movies = new ArrayList<>();
+        List<Guessable> movies = new ArrayList<>();
 
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
