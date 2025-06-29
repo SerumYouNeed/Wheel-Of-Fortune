@@ -35,7 +35,15 @@ public class Main {
 
 
         GameService game = new GameService(scanner, category, puzzle, player, wheel, 1000);
-        game.startGame();
+        while (game.startGame()) {
+            if (game.afterGoodPuzzleGuess()) {
+                category = CategorySelector.selectCategory();
+                puzzleList = loadFromDatabase(category);
+                puzzle = new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size())));
+                game = new GameService(scanner, category, puzzle, player, wheel, 1000);
+                game.startGame();
+            };
+        }
 
         scanner.close();
     }

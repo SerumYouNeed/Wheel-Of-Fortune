@@ -26,7 +26,8 @@ public class Wheel {
             case 1:
                 System.out.println("Wheel is spinning...");
                 sleeper.sleep();
-                System.out.println("BANKRUPT!!! YOU LOST ALL OF YOUR MONEY...");
+                System.out.println("Each letter is worth $1");
+                multiplier = 1;
                 break;
             case 2:
                 System.out.println("Wheel is spinning...");

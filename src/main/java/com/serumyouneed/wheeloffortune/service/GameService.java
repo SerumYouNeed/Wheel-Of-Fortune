@@ -24,7 +24,7 @@ public class GameService {
         this.price = price;
     }
 
-    public void startGame() {
+    public boolean startGame() {
         boolean answer = false;
         System.out.println("CATEGORY: " + category);
         while (!answer) {
@@ -43,6 +43,25 @@ public class GameService {
                 }
             }
         }
+        return true;
+    }
+
+    public boolean afterGoodPuzzleGuess() {
+        boolean answer = false;
+        while (!answer) {
+            System.out.print("Would you like to play another round? (y/n): ");
+            if (scanner.next().equalsIgnoreCase("Y")) {
+                System.out.println("Great! Let's begin!");
+                answer = true;
+                return answer;
+            } else if (scanner.next().equalsIgnoreCase("Y")) {
+                System.out.println("Well... See you next time!");
+                answer = true;
+            } else {
+                System.out.println("I don't understand. Please, repeat your answer.");
+            }
+        }
+        return false;
     }
 
     private int foundLetterCounter (String proverb, String input) {
