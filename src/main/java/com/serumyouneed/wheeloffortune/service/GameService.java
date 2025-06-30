@@ -54,7 +54,7 @@ public class GameService {
                 System.out.println("Great! Let's begin!");
                 answer = true;
                 return answer;
-            } else if (scanner.next().equalsIgnoreCase("Y")) {
+            } else if (scanner.next().equalsIgnoreCase("N")) {
                 System.out.println("Well... See you next time!");
                 answer = true;
             } else {
