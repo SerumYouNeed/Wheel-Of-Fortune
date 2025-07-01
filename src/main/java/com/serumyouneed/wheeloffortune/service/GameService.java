@@ -4,21 +4,40 @@ import com.serumyouneed.wheeloffortune.utils.CategorySelector;
 import com.serumyouneed.wheeloffortune.model.Player;
 import com.serumyouneed.wheeloffortune.model.Puzzle;
 import com.serumyouneed.wheeloffortune.model.Wheel;
+import com.serumyouneed.wheeloffortune.utils.Letters;
+import com.serumyouneed.wheeloffortune.utils.Messages;
+import com.serumyouneed.wheeloffortune.utils.Printer;
 
 import java.util.Scanner;
 
 public class GameService {
+
+    private CategorySelector.Category category;
+    private Puzzle puzzle;
+
+    public Puzzle getPuzzle() {
+        return puzzle;
+    }
+
+    public CategorySelector.Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategorySelector.Category category) {
+        this.category = category;
+    }
+
+    public void setPuzzle(Puzzle puzzle) {
+        this.puzzle = puzzle;
+    }
+
     private final Scanner scanner;
-    private final CategorySelector.Category category;
-    private final Puzzle puzzle;
     private final Player player;
     private final Wheel wheel;
     private final int price;
 
-    public GameService(Scanner scanner, CategorySelector.Category category, Puzzle puzzle, Player player, Wheel wheel, int price) {
+    public GameService(Scanner scanner, Player player, Wheel wheel, int price) {
         this.scanner = scanner;
-        this.category = category;
-        this.puzzle = puzzle;
         this.player = player;
         this.wheel = wheel;
         this.price = price;
@@ -26,7 +45,7 @@ public class GameService {
 
     public boolean startGame() {
         boolean answer = false;
-        System.out.println("CATEGORY: " + category);
+        Printer.print(Messages.CATEGORY + category);
         while (!answer) {
             System.out.println();
             System.out.println(puzzle.getPartiallyMaskedPuzzle());
@@ -34,12 +53,12 @@ public class GameService {
             int wheelReward = wheel.switchToField(wheel.spinTheWheel());
             if(showOptionsAndProcessChoice()) {
                 int choice = scanner.nextInt();
-
+                scanner.nextLine();
                 switch (choice) {
                     case 1 -> handleBuyVowel(wheelReward);
                     case 2 -> handleBuyConsonant(wheelReward);
                     case 3 -> answer = handleGuess(price);
-                    default -> System.out.println("Invalid option.");
+                    default -> Printer.print(Messages.INVALID_OPTION);
                 }
             }
         }
@@ -49,16 +68,16 @@ public class GameService {
     public boolean afterGoodPuzzleGuess() {
         boolean answer = false;
         while (!answer) {
-            System.out.print("Would you like to play another round? (y/n): ");
+            Printer.print(Messages.PLAY_AGAIN);
             if (scanner.next().equalsIgnoreCase("Y")) {
-                System.out.println("Great! Let's begin!");
+                Printer.print(Messages.LETS_BEGIN);
                 answer = true;
                 return answer;
             } else if (scanner.next().equalsIgnoreCase("N")) {
-                System.out.println("Well... See you next time!");
+                Printer.print(Messages.GOODBYE);
                 answer = true;
             } else {
-                System.out.println("I don't understand. Please, repeat your answer.");
+                Printer.print(Messages.UNKNOWN_RESPONSE);;
             }
         }
         return false;
@@ -83,9 +102,9 @@ public class GameService {
     }
 
     public boolean showOptionsAndProcessChoice() {
-        System.out.print("Options: press 1 - buy a vowel ($100), 2 - buy a consonant ($50), 3 - write an answer ($10): ");
+        Printer.print(Messages.OPTIONS);
         if (!scanner.hasNextInt()) {
-            System.out.println("Please enter a valid number (1, 2 or 3).");
+            Printer.print(Messages.ENTER_VALID_NUMBER);
             scanner.next();
             return false;
         }
@@ -93,42 +112,41 @@ public class GameService {
     }
 
     private void handleBuyVowel(int wheelReward) {
-        System.out.print("Please, enter a vowel: ");
-        scanner.nextLine();
+        Printer.print(Messages.ENTER_A_VOWEL);
         String input = readUppercaseInput(scanner);
-        if (input.length() == 1 && "AEIOU".contains(input)) {
+        String vowels = Letters.VOWELS.getLetters();
+        if (input.length() == 1 && vowels.contains(input)) {
             int foundVowels = foundLetterCounter(puzzle.getPuzzle(), input);
             player.setMoney(buyVowel(player.getMoney()) + (foundVowels * wheelReward));
             puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
-            displayBalance(player.getMoney());
+            Printer.print(Messages.YOUR_MONEY + player.getMoney());
         } else {
-            System.out.println("That is not a vowel.");
+            Printer.print(Messages.NOT_A_VOWEL);
         }
     }
 
     private void handleBuyConsonant(int wheelReward) {
-        System.out.print("Please, enter a consonant: ");
-        scanner.nextLine();
+        Printer.print(Messages.ENTER_A_CONSONANT);
         String input = readUppercaseInput(scanner);
-        if (input.length() == 1 && "BCDFGHJKLMNPQRSTVWXYZ".contains(input.toUpperCase())) {
+        String consonants = Letters.CONSONANTS.getLetters();
+        if (input.length() == 1 && consonants.contains(input.toUpperCase())) {
             int foundConsonant = foundLetterCounter(puzzle.getPuzzle(), input);
             player.setMoney(buyConsonant(player.getMoney()) + (foundConsonant * wheelReward));
             puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
-            displayBalance(player.getMoney());
+            Printer.print(Messages.YOUR_MONEY + player.getMoney());
         } else {
-            System.out.println("That is not a consonant.");
+            Printer.print(Messages.NOT_A_CONSONANT);
         }
     }
 
-    private boolean handleGuess(int prise) {
+    private boolean handleGuess(int price) {
         player.setMoney(takeGuess(player.getMoney()));
-        System.out.print("Your guess is: ");
-        scanner.nextLine();
+        Printer.print(Messages.ENTER_GUESS);
         String input = readUppercaseInput(scanner);
         boolean answer = guessAnswer(input, puzzle.getPuzzle());
         if (answer) {
-            player.setMoney(player.getMoney() + prise);
-            displayBalance(player.getMoney());
+            player.setMoney(player.getMoney() + price);
+            Printer.print(Messages.YOUR_MONEY + player.getMoney());
             return true;
         }
         return false;
@@ -136,10 +154,10 @@ public class GameService {
 
     private boolean guessAnswer(String input, String proverb) {
         if (input.toUpperCase().equals(proverb)) {
-            System.out.println("CORRECT!!! YOU WON!!!");
+            Printer.print(Messages.CORRECT);
             return true;
         } else {
-            System.out.println("WRONG");
+            Printer.print(Messages.WRONG);
             return false;
         }
     }
@@ -149,18 +167,7 @@ public class GameService {
     }
 
 
-    private void displayBalance(int money) {
-            System.out.println();
-            System.out.println("*******************");
-            System.out.println("Your money: $" + money);
-            System.out.println("*******************");
-    }
-
     private String readUppercaseInput(Scanner scanner) {
         return scanner.nextLine().trim().toUpperCase();
-    }
-
-    private CategorySelector.Category getCategory() {
-        return category;
     }
 }

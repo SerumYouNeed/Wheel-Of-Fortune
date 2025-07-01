@@ -19,19 +19,18 @@ class GameServiceTest {
     static {
         Random random = new Random();
 
-        CategorySelector.Category category = CategorySelector.selectCategory();
+        Player player = new Player(1000);
+        Wheel wheel = new Wheel(new RealSleeper());
+        Scanner scanner = new Scanner(System.in);
+        GameService game = new GameService(scanner, player, wheel, 1000);
+        game.setCategory(CategorySelector.selectCategory());
 
-        List<Guessable> puzzleList = loadFromDatabase(category);
+        List<Guessable> puzzleList = loadFromDatabase(game.getCategory());
         if (puzzleList == null || puzzleList.isEmpty()) {
             System.out.println("No movies available. Exiting the game.");
         }
 
-        Puzzle puzzle = new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size())));
-        Player player = new Player(1000);
-        Wheel wheel = new Wheel(new RealSleeper());
-        Scanner scanner = new Scanner(System.in);
-
-        GameService game = new GameService(scanner, CategorySelector.selectCategory(), puzzle, player, wheel, 1000);
+        game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
         game.startGame();
 
         scanner.close();

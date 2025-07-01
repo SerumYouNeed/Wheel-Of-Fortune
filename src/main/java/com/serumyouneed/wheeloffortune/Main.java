@@ -7,6 +7,8 @@ import com.serumyouneed.wheeloffortune.database.DatabaseConnection;
 import com.serumyouneed.wheeloffortune.model.*;
 import com.serumyouneed.wheeloffortune.service.GameService;
 import com.serumyouneed.wheeloffortune.utils.CategorySelector;
+import com.serumyouneed.wheeloffortune.utils.Messages;
+import com.serumyouneed.wheeloffortune.utils.Printer;
 import com.serumyouneed.wheeloffortune.utils.RealSleeper;
 
 import java.sql.Connection;
@@ -18,30 +20,31 @@ public class Main {
     public static void main(String[] args) {
 
         Random random = new Random();
+        Player player = new Player(1000);
+        Scanner scanner = new Scanner(System.in);
+        Wheel wheel = new Wheel(new RealSleeper());
 
-        CategorySelector.Category category = CategorySelector.selectCategory();
-
-        List<Guessable> puzzleList = loadFromDatabase(category);
+        GameService game = new GameService(scanner, player, wheel, 1000);
+        game.setCategory(CategorySelector.selectCategory());
+        List<Guessable> puzzleList = loadFromDatabase(game.getCategory());
 
         if (puzzleList == null || puzzleList.isEmpty()) {
-            System.out.println("No movies available. Exiting the game.");
+            Printer.print(Messages.NO_PUZZLES);
             return;
         }
 
-        Puzzle puzzle = new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size())));
-        Player player = new Player(1000);
-        Wheel wheel = new Wheel(new RealSleeper());
-        Scanner scanner = new Scanner(System.in);
+        game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
 
-
-        GameService game = new GameService(scanner, category, puzzle, player, wheel, 1000);
         while (game.startGame()) {
             if (game.afterGoodPuzzleGuess()) {
-                category = CategorySelector.selectCategory();
-                puzzleList = loadFromDatabase(category);
-                puzzle = new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size())));
-                game = new GameService(scanner, category, puzzle, player, wheel, 1000);
-                game.startGame();
+                game.setCategory(CategorySelector.selectCategory());
+                puzzleList = loadFromDatabase(game.getCategory());
+                if (puzzleList == null || puzzleList.isEmpty()) {
+                    Printer.print(Messages.NO_PUZZLES);
+                    return;
+                }
+                game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
+                continue;
             };
         }
 
