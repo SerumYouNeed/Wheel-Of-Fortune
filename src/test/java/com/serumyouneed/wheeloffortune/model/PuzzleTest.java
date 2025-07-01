@@ -1,13 +1,8 @@
 package com.serumyouneed.wheeloffortune.model;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Random;
 
-import static com.serumyouneed.wheeloffortune.Main.loadFromDatabase;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PuzzleTest {

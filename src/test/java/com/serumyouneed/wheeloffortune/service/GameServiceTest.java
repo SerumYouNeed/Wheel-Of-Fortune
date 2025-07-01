@@ -1,18 +1,15 @@
 package com.serumyouneed.wheeloffortune.service;
 
+import com.serumyouneed.wheeloffortune.database.DatabaseLoader;
 import com.serumyouneed.wheeloffortune.model.*;
 import com.serumyouneed.wheeloffortune.utils.CategorySelector;
 import com.serumyouneed.wheeloffortune.utils.RealSleeper;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.serumyouneed.wheeloffortune.Main.loadFromDatabase;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameServiceTest {
 
@@ -25,7 +22,7 @@ class GameServiceTest {
         GameService game = new GameService(scanner, player, wheel, 1000);
         game.setCategory(CategorySelector.selectCategory());
 
-        List<Guessable> puzzleList = loadFromDatabase(game.getCategory());
+        List<Guessable> puzzleList = DatabaseLoader.load(game.getCategory());
         if (puzzleList == null || puzzleList.isEmpty()) {
             System.out.println("No movies available. Exiting the game.");
         }
