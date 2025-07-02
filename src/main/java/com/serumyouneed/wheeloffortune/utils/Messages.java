@@ -18,4 +18,9 @@ public class Messages {
     public static final String ENTER_A_VOWEL = "Please, enter a vowel: ";
     public static final String ENTER_A_CONSONANT = "Please, enter a consonant: ";
     public static final String ENTER_GUESS = "Your guess is: ";
+    public static final String ENTER_NICKNAME = "Enter your nickname: ";
+    public static final String ERROR_CREATING_NEW_USER = "Error while creating new user: ";
+    public static final String ERROR_USER_NOT_FOUND = "User not found: ";
+    public static final String ERROR_LOGGING = "Login failed: ";
+    public static final String INVALID_NICKNAME = "Nickname can't be empty or longer than 20 characters. Please, try again.";
 }

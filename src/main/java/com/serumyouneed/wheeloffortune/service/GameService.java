@@ -1,15 +1,17 @@
 package com.serumyouneed.wheeloffortune.service;
 
-import com.serumyouneed.wheeloffortune.utils.CategorySelector;
+import com.serumyouneed.wheeloffortune.utils.*;
 import com.serumyouneed.wheeloffortune.model.Player;
 import com.serumyouneed.wheeloffortune.model.Puzzle;
 import com.serumyouneed.wheeloffortune.model.Wheel;
-import com.serumyouneed.wheeloffortune.utils.Letters;
-import com.serumyouneed.wheeloffortune.utils.Messages;
-import com.serumyouneed.wheeloffortune.utils.Printer;
 
 import java.util.Scanner;
 
+import static com.serumyouneed.wheeloffortune.utils.InputUtils.readUppercaseInput;
+
+/**
+ * This is game engine. Here all the logic of the game is combined.
+ */
 public class GameService {
 
     private CategorySelector.Category category;
@@ -164,10 +166,5 @@ public class GameService {
 
     private int takeGuess (int money) {
         return money - 10;
-    }
-
-
-    private String readUppercaseInput(Scanner scanner) {
-        return scanner.nextLine().trim().toUpperCase();
     }
 }
