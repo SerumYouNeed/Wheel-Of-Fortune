@@ -1,6 +1,8 @@
 package com.serumyouneed.wheeloffortune.utils;
 
 public class Messages {
+    public static final String HELLO = "Greetings!";
+    public static final String LOGGING_OPTIONS = "If this is your first time you can play as GUEST (press 1), CREATE NEW ACCOUNT (press 2) or LOG IN if you already have one (press 3).";
     public static final String NO_PUZZLES = "List with puzzles is empty. Exiting the game.";
     public static final String CATEGORY = "CATEGORY: ";
     public static final String OPTIONS = "Options: press 1 - buy a vowel ($100), 2 - buy a consonant ($50), 3 - write an answer ($10):";
@@ -23,4 +25,5 @@ public class Messages {
     public static final String ERROR_USER_NOT_FOUND = "User not found: ";
     public static final String ERROR_LOGGING = "Login failed: ";
     public static final String INVALID_NICKNAME = "Nickname can't be empty or longer than 20 characters. Please, try again.";
+    public static final String ERROR_DATABASE = "Database error: ";
 }

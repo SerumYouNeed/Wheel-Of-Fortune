@@ -6,11 +6,10 @@ import com.serumyouneed.wheeloffortune.dao.TheDaos;
 import com.serumyouneed.wheeloffortune.model.Guessable;
 import com.serumyouneed.wheeloffortune.model.User;
 import com.serumyouneed.wheeloffortune.utils.CategorySelector;
+import com.serumyouneed.wheeloffortune.utils.Messages;
+import com.serumyouneed.wheeloffortune.utils.Printer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class DatabaseLoader {
@@ -29,29 +28,26 @@ public class DatabaseLoader {
             }
             return dao.getAll();
         } catch (Exception e) {
-            System.out.println("Database error: " + e.getMessage());
+            Printer.print(Messages.ERROR_DATABASE + e.getMessage());
             return null;
         }
     }
-    public static loadUser() {
+    public void loadUser(User user) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO users (nickname) VALUES (?)", Statement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, nickname);
+            stmt.setString(1, user.getNickname());
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 int id = rs.getInt(1);
-                User user = new User(nickname, false);
                 user.setId(id);
-                return user;
             }
 
         } catch (SQLException e) {
-            System.out.println("Błąd podczas tworzenia użytkownika: " + e.getMessage());
+            Printer.print(Messages.ERROR_CREATING_NEW_USER + e.getMessage());
         }
-            return null;
     }
 }

@@ -3,6 +3,7 @@ package com.serumyouneed.wheeloffortune;
 import com.serumyouneed.wheeloffortune.database.DatabaseLoader;
 import com.serumyouneed.wheeloffortune.model.*;
 import com.serumyouneed.wheeloffortune.service.GameService;
+import com.serumyouneed.wheeloffortune.service.UserService;
 import com.serumyouneed.wheeloffortune.utils.CategorySelector;
 import com.serumyouneed.wheeloffortune.utils.Messages;
 import com.serumyouneed.wheeloffortune.utils.Printer;
@@ -19,6 +20,8 @@ public class Main {
         Player player = new Player(1000);
         Scanner scanner = new Scanner(System.in);
         Wheel wheel = new Wheel(new RealSleeper());
+        UserService userService = new UserService(scanner);
+        User user = userService.startUser();
 
         GameService game = new GameService(scanner, player, wheel, 1000);
         game.setCategory(CategorySelector.selectCategory());
