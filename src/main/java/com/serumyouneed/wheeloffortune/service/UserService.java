@@ -20,6 +20,11 @@ public class UserService {
     public UserService(Scanner scanner) {
         this.scanner = scanner;
     }
+
+    /**
+     * Entry User engine. Depending on input create new User in database, log old one or allow to play as guest.
+     * @return user (User)
+     */
     public User startUser() {
         Printer.print(Messages.HELLO);
         User user = null;
