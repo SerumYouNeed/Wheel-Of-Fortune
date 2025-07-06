@@ -63,6 +63,10 @@ public class UserService {
         return readUppercaseInput(scanner);
     }
 
+    /**
+     * Prompt user if one want to play as guest, log in or create new account.
+     * @return user choice (OptionalInt)
+     */
     private OptionalInt promptUserChoice() {
         Printer.print(Messages.LOGGING_OPTIONS);
         if (!scanner.hasNextInt()) {
