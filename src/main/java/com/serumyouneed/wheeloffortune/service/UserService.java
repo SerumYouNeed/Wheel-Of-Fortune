@@ -58,6 +58,10 @@ public class UserService {
         return UserDao.searchUserInDatabase(nickname);
     }
 
+    /**
+     * Prompt user for nickname, trim input and return string in uppercase format
+     * @return nickname (String)
+     */
     private String promptNickname() {
         Printer.print(Messages.ENTER_NICKNAME);
         return readUppercaseInput(scanner);
