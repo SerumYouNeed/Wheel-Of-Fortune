@@ -7,7 +7,13 @@ public class User {
     private int id;
     private boolean isGuest;
     private String nickname;
+    private String hashedPassword;
 
+    public User (String nickname, String hashedPassword, boolean isGuest) {
+        this.nickname = nickname;
+        this.isGuest = isGuest;
+        this.hashedPassword = hashedPassword;
+    }
     public User (String nickname, boolean isGuest) {
         this.nickname = nickname;
         this.isGuest = isGuest;

@@ -2,6 +2,7 @@ package com.serumyouneed.wheeloffortune.utils;
 
 public class Messages {
     public static final String HELLO = "Greetings!";
+    public static final String HELLO_AFTER_LOGGING = "Hello! Nice to see you again ";
     public static final String LOGGING_OPTIONS = "If this is your first time you can play as GUEST (press 1), CREATE NEW ACCOUNT (press 2) or LOG IN if you already have one (press 3).";
     public static final String NO_PUZZLES = "List with puzzles is empty. Exiting the game.";
     public static final String CATEGORY = "CATEGORY: ";
@@ -21,9 +22,12 @@ public class Messages {
     public static final String ENTER_A_CONSONANT = "Please, enter a consonant: ";
     public static final String ENTER_GUESS = "Your guess is: ";
     public static final String ENTER_NICKNAME = "Enter your nickname: ";
+    public static final String ENTER_PASSWORD = "Enter your password: ";
     public static final String ERROR_CREATING_NEW_USER = "Error while creating new user: ";
     public static final String ERROR_USER_NOT_FOUND = "User not found: ";
     public static final String ERROR_LOGGING = "Login failed: ";
+    public static final String ERROR_PASSWORD = "Wrong password.";
     public static final String INVALID_NICKNAME = "Nickname can't be empty or longer than 20 characters. Please, try again.";
     public static final String ERROR_DATABASE = "Database error: ";
+    public static final String USED_NICKNAME = "Nickname already in database. Please, try different one.";
 }

@@ -5,6 +5,7 @@ import com.serumyouneed.wheeloffortune.model.User;
 import com.serumyouneed.wheeloffortune.utils.InputUtils;
 import com.serumyouneed.wheeloffortune.utils.Messages;
 import com.serumyouneed.wheeloffortune.utils.Printer;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.OptionalInt;
 import java.util.Scanner;
@@ -44,8 +45,13 @@ public class UserService {
     }
 
     public User createNewUser() {
-        String nickname = promptNickname();
-        return UserDao.setNewUserToDatabase(nickname);
+        String nickname;
+        do {
+            nickname = promptNickname();
+        } while (!UserDao.checkingNicknameUniqueness(nickname));
+        String plainPassword = promptPassword();
+        String hashedPassword = BCrypt.hashpw(plainPassword, BCrypt.gensalt());
+        return UserDao.setNewUserToDatabase(nickname, hashedPassword);
     }
 
     public User createGuestUser() {
@@ -54,7 +60,16 @@ public class UserService {
     }
 
     public User loginUser() {
+        int loggingChances = 3;
         String nickname = promptNickname();
+        String plainPassword = promptPassword();
+        String hashedPasswordFromDatabase = UserDao.getHashedPasswordFromDatabase(nickname);
+        if (BCrypt.checkpw(plainPassword, hashedPasswordFromDatabase)) {
+            Printer.print(Messages.HELLO_AFTER_LOGGING + nickname);
+            return new User(nickname, hashedPasswordFromDatabase, false);
+        } else {
+            Printer.print(Messages.ERROR_PASSWORD);
+        }
         return UserDao.searchUserInDatabase(nickname);
     }
 
@@ -65,6 +80,10 @@ public class UserService {
     private String promptNickname() {
         Printer.print(Messages.ENTER_NICKNAME);
         return readUppercaseInput(scanner);
+    }
+    private String promptPassword() {
+        Printer.print(Messages.ENTER_PASSWORD);
+        return scanner.nextLine();
     }
 
     /**

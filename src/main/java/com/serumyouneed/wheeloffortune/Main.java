@@ -17,11 +17,11 @@ public class Main {
     public static void main(String[] args) {
 
         Random random = new Random();
-        Player player = new Player(1000);
         Scanner scanner = new Scanner(System.in);
-        Wheel wheel = new Wheel(new RealSleeper());
         UserService userService = new UserService(scanner);
         User user = userService.startUser();
+        Player player = new Player(1000, user);
+        Wheel wheel = new Wheel(new RealSleeper());
 
         GameService game = new GameService(scanner, player, wheel, 1000);
         game.setCategory(CategorySelector.selectCategory());

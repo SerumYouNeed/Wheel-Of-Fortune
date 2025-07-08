@@ -11,18 +11,38 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class UserDao {
 
-    public static User setNewUserToDatabase(String nickname) {
+    public static boolean checkingNicknameUniqueness(String nickname) {
         try (Connection conn = DatabaseConnection.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "INSERT INTO users (nickname) VALUES (?)", Statement.RETURN_GENERATED_KEYS
+                    "SELECT id FROM users WHERE nickname = ?"
             );
             stmt.setString(1, nickname);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Printer.print(Messages.USED_NICKNAME);
+                return false;
+            }
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static User setNewUserToDatabase(String nickname, String hashedPassword) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO users (nickname, password_hash) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            stmt.setString(1, nickname);
+            stmt.setString(2, hashedPassword);
             stmt.executeUpdate();
 
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 int id = rs.getInt(1);
-                User user = new User(nickname, false);
+                User user = new User(nickname, hashedPassword, false);
                 user.setId(id);
                 return user;
             }
@@ -32,6 +52,7 @@ public class UserDao {
         }
         return null;
     }
+
 
     public static User searchUserInDatabase(String nickname) {
         if (nickname.isBlank() || nickname.length() > 20) {
@@ -58,6 +79,26 @@ public class UserDao {
             Printer.print(Messages.ERROR_LOGGING + e.getMessage());
         }
 
+        return null;
+    }
+
+    public static String getHashedPasswordFromDatabase(String nickname) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT password_hash FROM users WHERE nickname = ?",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            stmt.setString(1, nickname);
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+
+        } catch (SQLException e) {
+            Printer.print(Messages.ERROR_CREATING_NEW_USER + e.getMessage());
+        }
         return null;
     }
 }

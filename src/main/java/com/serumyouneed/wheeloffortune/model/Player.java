@@ -5,12 +5,22 @@ package com.serumyouneed.wheeloffortune.model;
  */
 public class Player {
 
+
+    private User user;
     private int money;
 
-    public Player(int startingMoney) {
+    public Player(int startingMoney, User user) {
+        this.user = user;
         this.money = startingMoney;
     }
 
+    /**
+     * Getter of user profile
+     * @return (User) user: user profile from database
+     */
+    public User getUser() {
+        return user;
+    }
     /**
      * Getter of money value
      * @return (int) money: actual players balance
