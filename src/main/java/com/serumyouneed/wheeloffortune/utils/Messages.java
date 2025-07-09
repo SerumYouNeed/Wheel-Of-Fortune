@@ -27,6 +27,7 @@ public class Messages {
     public static final String ERROR_USER_NOT_FOUND = "User not found: ";
     public static final String ERROR_LOGGING = "Login failed: ";
     public static final String ERROR_PASSWORD = "Wrong password.";
+    public static final String ERROR_PASSWORD_THREE_TIMES = "You enter wrong password too many times.";
     public static final String INVALID_NICKNAME = "Nickname can't be empty or longer than 20 characters. Please, try again.";
     public static final String ERROR_DATABASE = "Database error: ";
     public static final String USED_NICKNAME = "Nickname already in database. Please, try different one.";

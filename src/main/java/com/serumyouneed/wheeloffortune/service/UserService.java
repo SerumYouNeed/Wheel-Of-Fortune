@@ -69,6 +69,10 @@ public class UserService {
             return new User(nickname, hashedPasswordFromDatabase, false);
         } else {
             Printer.print(Messages.ERROR_PASSWORD);
+            loggingChances -= 1;
+            if (loggingChances == 0) {
+                Printer.print(Messages.ERROR_PASSWORD_THREE_TIMES);
+            }
         }
         return UserDao.searchUserInDatabase(nickname);
     }
