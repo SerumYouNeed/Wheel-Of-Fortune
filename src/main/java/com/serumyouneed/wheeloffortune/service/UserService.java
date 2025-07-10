@@ -2,7 +2,6 @@ package com.serumyouneed.wheeloffortune.service;
 
 import com.serumyouneed.wheeloffortune.dao.UserDao;
 import com.serumyouneed.wheeloffortune.model.User;
-import com.serumyouneed.wheeloffortune.utils.InputUtils;
 import com.serumyouneed.wheeloffortune.utils.Messages;
 import com.serumyouneed.wheeloffortune.utils.Printer;
 import org.mindrot.jbcrypt.BCrypt;
@@ -44,6 +43,10 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Create new user in database with nickname and password. Allow to log in using created account.
+     * @return (User) new user instance.
+     */
     public User createNewUser() {
         String nickname;
         do {
@@ -54,11 +57,19 @@ public class UserService {
         return UserDao.setNewUserToDatabase(nickname, hashedPassword);
     }
 
+    /**
+     * Create new user instance without need of logging.
+     * @return (User) new user instance with default isGuest field as true.
+     */
     public User createGuestUser() {
         String nickname = promptNickname();
         return new User(nickname, true);
     }
 
+    /**
+     * Prompt login and password and validate them. If positive create User.
+     * @return (User) instance of new user.
+     */
     public User loginUser() {
         int loggingChances = 3;
         String nickname;

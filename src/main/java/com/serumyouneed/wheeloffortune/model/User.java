@@ -26,8 +26,4 @@ public class User {
     public String getNickname() {
         return nickname;
     }
-
-    public boolean isGuest() {
-        return isGuest;
-    }
 }
