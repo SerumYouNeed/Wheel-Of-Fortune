@@ -61,20 +61,29 @@ public class UserService {
 
     public User loginUser() {
         int loggingChances = 3;
-        String nickname = promptNickname();
-        String plainPassword = promptPassword();
-        String hashedPasswordFromDatabase = UserDao.getHashedPasswordFromDatabase(nickname);
-        if (BCrypt.checkpw(plainPassword, hashedPasswordFromDatabase)) {
-            Printer.print(Messages.HELLO_AFTER_LOGGING + nickname);
-            return new User(nickname, hashedPasswordFromDatabase, false);
-        } else {
-            Printer.print(Messages.ERROR_PASSWORD);
-            loggingChances -= 1;
-            if (loggingChances == 0) {
-                Printer.print(Messages.ERROR_PASSWORD_THREE_TIMES);
+        String nickname;
+        User userFromDatabase;
+        do {
+            nickname = promptNickname();
+            userFromDatabase = UserDao.searchUserInDatabase(nickname);
+        } while (userFromDatabase == null);
+
+        while (loggingChances > 0) {
+            String plainPassword = promptPassword();
+
+            if (BCrypt.checkpw(plainPassword, userFromDatabase.getHashedPassword())) {
+                Printer.print(Messages.HELLO_AFTER_LOGGING + nickname);
+                return userFromDatabase;
+            } else {
+                loggingChances--;
+                Printer.print(Messages.ERROR_PASSWORD);
+
+                if (loggingChances == 0) {
+                    Printer.print(Messages.ERROR_PASSWORD_THREE_TIMES);
+                }
             }
         }
-        return UserDao.searchUserInDatabase(nickname);
+        return null;
     }
 
     /**

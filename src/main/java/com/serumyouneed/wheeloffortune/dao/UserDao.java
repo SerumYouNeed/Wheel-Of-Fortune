@@ -61,16 +61,14 @@ public class UserDao {
         }
         try (Connection conn = DatabaseConnection.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT id FROM users WHERE nickname = ?"
+                    "SELECT password_hash FROM users WHERE nickname = ?"
             );
             stmt.setString(1, nickname);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                int id = rs.getInt("id");
-                User user = new User(nickname, false);
-                user.setId(id);
-                return user;
+                String hashedPassword = rs.getString("password_hash");
+                return new User(nickname, hashedPassword,false);
             } else {
                 Printer.print(Messages.ERROR_USER_NOT_FOUND);
             }

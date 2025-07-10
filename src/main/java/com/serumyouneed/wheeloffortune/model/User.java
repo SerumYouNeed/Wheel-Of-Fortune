@@ -4,9 +4,8 @@ package com.serumyouneed.wheeloffortune.model;
  * Class for logging purpose. Help to create player profile in database.
  */
 public class User {
-    private int id;
-    private boolean isGuest;
-    private String nickname;
+    private final boolean isGuest;
+    private final String nickname;
     private String hashedPassword;
 
     public User (String nickname, String hashedPassword, boolean isGuest) {
@@ -20,8 +19,8 @@ public class User {
     }
 
     // Getters
-    public int getId() {
-        return id;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
     public String getNickname() {
@@ -31,18 +30,4 @@ public class User {
     public boolean isGuest() {
         return isGuest;
     }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setGuest(boolean guest) {
-        isGuest = guest;
-    }
-
 }
