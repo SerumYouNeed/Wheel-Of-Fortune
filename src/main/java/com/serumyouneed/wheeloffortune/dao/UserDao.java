@@ -7,7 +7,6 @@ import com.serumyouneed.wheeloffortune.utils.Printer;
 
 import java.sql.*;
 
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class UserDao {
 
@@ -41,10 +40,7 @@ public class UserDao {
 
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                int id = rs.getInt(1);
-                User user = new User(nickname, hashedPassword, false);
-                user.setId(id);
-                return user;
+                return new User(nickname, hashedPassword, false);
             }
 
         } catch (SQLException e) {
@@ -77,26 +73,6 @@ public class UserDao {
             Printer.print(Messages.ERROR_LOGGING + e.getMessage());
         }
 
-        return null;
-    }
-
-    public static String getHashedPasswordFromDatabase(String nickname) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT password_hash FROM users WHERE nickname = ?",
-                    Statement.RETURN_GENERATED_KEYS
-            );
-            stmt.setString(1, nickname);
-            stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getString(1);
-            }
-
-        } catch (SQLException e) {
-            Printer.print(Messages.ERROR_CREATING_NEW_USER + e.getMessage());
-        }
         return null;
     }
 }

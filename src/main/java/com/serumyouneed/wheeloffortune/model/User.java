@@ -4,6 +4,7 @@ package com.serumyouneed.wheeloffortune.model;
  * Class for logging purpose. Help to create player profile in database.
  */
 public class User {
+
     private final boolean isGuest;
     private final String nickname;
     private String hashedPassword;
@@ -25,5 +26,9 @@ public class User {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public boolean isGuest() {
+        return isGuest;
     }
 }

@@ -32,22 +32,4 @@ public class DatabaseLoader {
             return null;
         }
     }
-    public void loadUser(User user) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(
-                    "INSERT INTO users (nickname) VALUES (?)", Statement.RETURN_GENERATED_KEYS
-            );
-            stmt.setString(1, user.getNickname());
-            stmt.executeUpdate();
-
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                int id = rs.getInt(1);
-                user.setId(id);
-            }
-
-        } catch (SQLException e) {
-            Printer.print(Messages.ERROR_CREATING_NEW_USER + e.getMessage());
-        }
-    }
 }
