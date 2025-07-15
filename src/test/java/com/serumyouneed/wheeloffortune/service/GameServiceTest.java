@@ -52,7 +52,6 @@ class GameServiceTest {
     void testFoundLetterCounter() {
         String puzzle = "ABCDEFG";
         String input = "A";
-        when()
     }
 
     @Test
