@@ -5,9 +5,9 @@ package com.serumyouneed.wheeloffortune.model;
  *
  */
 public class Movie implements Guessable{
-    private int id;
-    private String title;
-    private int releaseYear;
+    private final int id;
+    private final String title;
+    private final int releaseYear;
 
     public Movie(int id, String title, int releaseYear) {
         this.id = id;

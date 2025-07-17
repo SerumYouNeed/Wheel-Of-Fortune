@@ -5,9 +5,9 @@ package com.serumyouneed.wheeloffortune.model;
  *
  */
 public class Proverb implements Guessable{
-    private int id;
-    private String proverb;
-    private String meaning;
+    private final int id;
+    private final String proverb;
+    private final String meaning;
 
     public Proverb(int id, String proverb, String meaning) {
         this.id = id;

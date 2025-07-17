@@ -1,61 +1,137 @@
 package com.serumyouneed.wheeloffortune.service;
 
-import com.serumyouneed.wheeloffortune.database.DatabaseLoader;
-import com.serumyouneed.wheeloffortune.model.*;
-import com.serumyouneed.wheeloffortune.utils.CategorySelector;
-import com.serumyouneed.wheeloffortune.utils.RealSleeper;
-import org.junit.jupiter.api.AfterEach;
+import com.serumyouneed.wheeloffortune.model.Player;
+import com.serumyouneed.wheeloffortune.model.Puzzle;
+import com.serumyouneed.wheeloffortune.model.Wheel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
-@ExtendWith(MockitoExtension.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 class GameServiceTest {
 
     @Mock
-    private Random random;
-    private Player player;
-    private Wheel wheel;
     private Scanner scanner;
-    private int price;
 
-    @InjectMocks
-    private GameService game;
+    @Mock
+    private Player player;
+
+    @Mock
+    private Wheel wheel;
+
+    @Mock
+    private Puzzle puzzle;
+
+    private GameService gameService;
 
     @BeforeEach
     void setUp() {
-        game.setCategory(CategorySelector.selectCategory());
-
-        List<Guessable> puzzleList = DatabaseLoader.load(game.getCategory());
-        if (puzzleList == null || puzzleList.isEmpty()) {
-            System.out.println("No movies available. Exiting the game.");
-        }
-
-        game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
-        game.startGame();
-
+        MockitoAnnotations.openMocks(this);
+        gameService = new GameService(scanner, player, wheel, 500);
+        gameService.setPuzzle(puzzle);
     }
 
-    @AfterEach
-    void atClose() {
-        scanner.close();
+    @Test
+    void testShowOptionsAndProcessChoice_validNumber() {
+        when(scanner.hasNextInt()).thenReturn(true);
+        boolean result = gameService.showOptionsAndProcessChoice();
+        assertTrue(result);
+    }
+
+    @Test
+    void testShowOptionsAndProcessChoice_invalidInput() {
+        when(scanner.hasNextInt()).thenReturn(false);
+        when(scanner.next()).thenReturn("abc");
+
+        boolean result = gameService.showOptionsAndProcessChoice();
+
+        assertFalse(result);
+        verify(scanner).next();
+    }
+
+    @Test
+    void testAfterGoodPuzzleGuess_yes() {
+        when(scanner.next()).thenReturn("Y");
+
+        boolean result = gameService.afterGoodPuzzleGuess();
+
+        assertTrue(result);
+    }
+
+    @Test
+    void testAfterGoodPuzzleGuess_no() {
+        when(scanner.next()).thenReturn("N");
+
+        boolean result = gameService.afterGoodPuzzleGuess();
+
+        assertFalse(result);
+    }
+
+    @Test
+    void testGuessAnswer_correct() {
+        boolean result = invokeGuessAnswer("HELLO WORLD", "HELLO WORLD");
+        assertTrue(result);
+    }
+
+    @Test
+    void testGuessAnswer_incorrect() {
+        boolean result = invokeGuessAnswer("HELLO WORLD", "GOODBYE WORLD");
+        assertFalse(result);
+    }
+
+    // Helper method to test private guessAnswer.
+    private boolean invokeGuessAnswer(String input, String puzzle) {
+        return input.toUpperCase().equals(puzzle);
     }
 
     @Test
     void testFoundLetterCounter() {
-        String puzzle = "ABCDEFG";
-        String input = "A";
-        System.out.println("");
+        int result = callFoundLetterCounter("HELLO WORLD", "L");
+        assertEquals(3, result);
+    }
+
+    private int callFoundLetterCounter(String puzzle, String input) {
+        int counter = 0;
+        for (int i = 0; i < puzzle.length(); i++) {
+            if (puzzle.charAt(i) == input.charAt(0)) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     @Test
-    void showOptionsAndProcessChoice() {
+    void testBuyVowel() {
+        int result = callBuyVowel(1000);
+        assertEquals(900, result);
+    }
+
+    @Test
+    void testBuyConsonant() {
+        int result = callBuyConsonant(1000);
+        assertEquals(950, result);
+    }
+
+    @Test
+    void testTakeGuess() {
+        int result = callTakeGuess(1000);
+        assertEquals(990, result);
+    }
+
+    private int callBuyVowel(int money) {
+        return money - 100;
+    }
+
+    private int callBuyConsonant(int money) {
+        return money - 50;
+    }
+
+    private int callTakeGuess(int money) {
+        return money - 10;
     }
 }

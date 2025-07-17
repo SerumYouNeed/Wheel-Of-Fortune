@@ -6,7 +6,7 @@ package com.serumyouneed.wheeloffortune.model;
 public class Player {
 
 
-    private User user;
+    private final User user;
     private int money;
 
     public Player(int startingMoney, User user) {
