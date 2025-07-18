@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static com.serumyouneed.wheeloffortune.utils.InputUtils.readUppercaseInput;
 
 /**
- * This is game engine. Here all the logic of the game is combined.
+ * This is the game engine. Here all the logic of the game is combined.
  */
 public class GameService {
 
