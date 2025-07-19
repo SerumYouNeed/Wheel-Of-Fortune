@@ -79,6 +79,10 @@ public class Puzzle {
         return masked.toString();
     }
 
+    /**
+     * Returns partially masked puzzle after uncover letter.
+     * @return puzzle (partiallyMaskedPuzzle): new view of a puzzle after letter uncover.
+     */
     public String getPartiallyMaskedPuzzle() {
         return partiallyMaskedPuzzle;
     }
