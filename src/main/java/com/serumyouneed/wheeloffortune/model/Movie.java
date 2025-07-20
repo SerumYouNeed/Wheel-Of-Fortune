@@ -28,7 +28,7 @@ public class Movie implements Guessable{
         return releaseYear;
     }
 
-    // toString for debugging purpose
+    // toString for debugging purpose only
     @Override
     public String toString() {
         return title + " (" + releaseYear + ")";
