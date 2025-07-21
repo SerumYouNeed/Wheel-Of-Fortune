@@ -6,7 +6,12 @@ public class Messages {
     public static final String LOGGING_OPTIONS = "If this is your first time you can play as GUEST (press 1), CREATE NEW ACCOUNT (press 2) or LOG IN if you already have one (press 3).";
     public static final String NO_PUZZLES = "List with puzzles is empty. Exiting the game.";
     public static final String CATEGORY = "CATEGORY: ";
-    public static final String OPTIONS = "Options: press 1 - buy a vowel ($100), 2 - buy a consonant ($50), 3 - write an answer ($10):";
+    public static final String OPTIONS = """
+                                            Options:
+                                            1 - buy a vowel ($100),
+                                            2 - buy a consonant ($50),
+                                            3 - write an answer ($10),
+                                            0 - quit game:""";
     public static final String INVALID_OPTION = "Invalid option.";
     public static final String NOT_A_VOWEL = "That is not a vowel.";
     public static final String NOT_A_CONSONANT = "That is not a consonant.";

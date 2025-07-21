@@ -57,6 +57,7 @@ public class GameService {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
                 switch (choice) {
+                    case 0 -> answer = quitGame();
                     case 1 -> handleBuyVowel(wheelReward);
                     case 2 -> handleBuyConsonant(wheelReward);
                     case 3 -> answer = handleGuess(price);
@@ -65,6 +66,10 @@ public class GameService {
             }
         }
         return true;
+    }
+
+    public boolean quitGame() {
+
     }
 
     public boolean afterGoodPuzzleGuess() {
