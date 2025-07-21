@@ -22,7 +22,6 @@ public class Main {
         User user = userService.startUser();
         Player player = new Player(1000, user);
         Wheel wheel = new Wheel(new RealSleeper());
-
         GameService game = new GameService(scanner, player, wheel, 1000);
         game.setCategory(CategorySelector.selectCategory());
         List<Guessable> puzzleList = DatabaseLoader.load(game.getCategory());
@@ -45,9 +44,9 @@ public class Main {
                 puzzleListChecker(puzzleList);
                 game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
                 continue;
-            };
+            }
         }
-
+        Printer.print(Messages.GOODBYE);
     }
 
     /**

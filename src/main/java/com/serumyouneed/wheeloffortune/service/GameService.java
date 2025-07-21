@@ -69,25 +69,27 @@ public class GameService {
     }
 
     public boolean quitGame() {
-
+        Printer.print(Messages.GOODBYE);
+        return true;
     }
 
     public boolean afterGoodPuzzleGuess() {
-        boolean answer = false;
-        while (!answer) {
+        boolean promptUser = true;
+        boolean playAgain = false;
+        while (promptUser) {
             Printer.print(Messages.PLAY_AGAIN);
             if (scanner.next().equalsIgnoreCase("Y")) {
                 Printer.print(Messages.LETS_BEGIN);
-                answer = true;
-                return answer;
+                promptUser = false;
+                playAgain = true;
             } else if (scanner.next().equalsIgnoreCase("N")) {
                 Printer.print(Messages.GOODBYE);
-                answer = true;
+                promptUser = false;
             } else {
                 Printer.print(Messages.UNKNOWN_RESPONSE);;
             }
         }
-        return false;
+        return playAgain;
     }
 
     private int foundLetterCounter (String proverb, String input) {
