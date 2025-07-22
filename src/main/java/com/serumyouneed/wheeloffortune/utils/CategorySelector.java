@@ -12,6 +12,10 @@ public class CategorySelector {
         PROVERB
     }
 
+    /**
+     * Select category based on random number generated.
+     * @return (Category)
+     */
     public static Category selectCategory() {
         Category[] categories = Category.values();
         Random random = new Random();
