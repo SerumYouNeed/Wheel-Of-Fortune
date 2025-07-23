@@ -13,7 +13,7 @@ public class CategorySelector {
     }
 
     /**
-     * Select category based on random number generated.
+     * Select category based on a random number generated.
      * @return (Category)
      */
     public static Category selectCategory() {

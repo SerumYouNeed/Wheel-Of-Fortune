@@ -20,7 +20,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         UserService userService = new UserService(scanner);
         User user = userService.startUser();
-        Player player = new Player(1000, user);
+        Player player = new Player(user);
         Wheel wheel = new Wheel(new RealSleeper());
         GameService game = new GameService(scanner, player, wheel, 1000);
         game.setCategory(CategorySelector.selectCategory());
@@ -28,12 +28,14 @@ public class Main {
 
         puzzleListChecker(puzzleList);
 
-        game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
-
+        if (puzzleList != null) {
+            game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
+        } else {
+            Printer.print(Messages.ERROR_DATABASE + Messages.NO_PUZZLES);
+        }
         gameLoop(game, random);
 
         scanner.close();
-
     }
 
     static void gameLoop (GameService game, Random random) {
@@ -42,11 +44,15 @@ public class Main {
                 game.setCategory(CategorySelector.selectCategory());
                 List<Guessable> puzzleList = DatabaseLoader.load(game.getCategory());
                 puzzleListChecker(puzzleList);
-                game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
-                continue;
+                if (puzzleList != null) {
+                    game.setPuzzle(new Puzzle(puzzleList.get(random.nextInt(0, puzzleList.size()))));
+                } else {
+                    Printer.print(Messages.ERROR_DATABASE + Messages.NO_PUZZLES);
+                }
+            } else {
+                Printer.print(Messages.GOODBYE);
             }
         }
-        Printer.print(Messages.GOODBYE);
     }
 
     /**

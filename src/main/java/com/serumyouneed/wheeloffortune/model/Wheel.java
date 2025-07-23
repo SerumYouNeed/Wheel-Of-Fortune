@@ -59,12 +59,6 @@ public class Wheel {
                 System.out.println("Each letter is worth $200");
                 multiplier = 200;
                 break;
-            case 7:
-                System.out.println("Wheel is spinning...");
-                sleeper.sleep();
-                System.out.println("THAT IS NOT FAIR but each uncovered letter is worth $-100");
-                multiplier = -100;
-                break;
             default:
                 System.out.println("Wheel of fortune is not spinning...");
         }
@@ -78,7 +72,7 @@ public class Wheel {
     public int spinTheWheel() {
         Random random = new Random();
         int field;
-        field = random.nextInt(1, 8);
+        field = random.nextInt(1, 7);
         return  field;
     }
 }

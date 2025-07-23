@@ -3,13 +3,17 @@ package com.serumyouneed.wheeloffortune.utils;
 public class Messages {
     public static final String HELLO = "Greetings!";
     public static final String HELLO_AFTER_LOGGING = "Hello! Nice to see you again ";
-    public static final String LOGGING_OPTIONS = "If this is your first time you can play as GUEST (press 1), CREATE NEW ACCOUNT (press 2) or LOG IN if you already have one (press 3).";
+    public static final String LOGGING_OPTIONS = """
+                                                    SELECT:
+                                                    1 - GUEST ACCOUNT
+                                                    2 - CREATE NEW ACCOUNT
+                                                    3 - LOG IN""";
     public static final String NO_PUZZLES = "List with puzzles is empty. Exiting the game.";
     public static final String CATEGORY = "CATEGORY: ";
     public static final String OPTIONS = """
                                             Options:
                                             1 - buy a vowel ($100),
-                                            2 - buy a consonant ($50),
+                                            2 - guess a consonant,
                                             3 - write an answer ($10),
                                             0 - quit game:""";
     public static final String INVALID_OPTION = "Invalid option.";
@@ -36,4 +40,5 @@ public class Messages {
     public static final String INVALID_NICKNAME = "Nickname can't be empty or longer than 20 characters. Please, try again.";
     public static final String ERROR_DATABASE = "Database error: ";
     public static final String USED_NICKNAME = "Nickname already in database. Please, try different one.";
+    public static final String NOT_ENOUGH_MONEY = "Sorry, but you do not have enough money to buy a vowel.";
 }

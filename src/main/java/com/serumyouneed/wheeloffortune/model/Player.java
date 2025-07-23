@@ -5,13 +5,11 @@ package com.serumyouneed.wheeloffortune.model;
  */
 public class Player {
 
-
     private final User user;
     private int money;
 
-    public Player(int startingMoney, User user) {
+    public Player(User user) {
         this.user = user;
-        this.money = startingMoney;
     }
 
     /**
@@ -34,22 +32,5 @@ public class Player {
      */
     public void setMoney(int money) {
         this.money = money;
-    }
-
-    /**
-     * Function increase player's money balance
-     *
-     * @param amount (int): added value to account
-     */
-    public void addMoney(int amount) {
-        this.money += amount;
-    }
-
-    /**
-     * Function decrease player's money balance
-     * @param amount (int): decreased value to account
-     */
-    public void subtractMoney(int amount) {
-        this.money -= amount;
     }
 }

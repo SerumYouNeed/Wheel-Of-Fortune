@@ -5,7 +5,7 @@ package com.serumyouneed.wheeloffortune.model;
  */
 public class Puzzle {
 
-    private String puzzle;
+    private final String puzzle;
     private String maskedPuzzle;
     private String partiallyMaskedPuzzle;
 
@@ -14,10 +14,6 @@ public class Puzzle {
         this.puzzle = puzzle.getText().toUpperCase();
         this.partiallyMaskedPuzzle = maskingProverb(puzzle.getText().toUpperCase());
 
-    }
-
-    public void setPuzzle(String puzzle) {
-        this.puzzle = puzzle.toUpperCase();
     }
 
     public void setMaskedPuzzle(String puzzle) {

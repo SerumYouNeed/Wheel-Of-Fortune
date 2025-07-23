@@ -17,10 +17,6 @@ public class GameService {
     private CategorySelector.Category category;
     private Puzzle puzzle;
 
-    public Puzzle getPuzzle() {
-        return puzzle;
-    }
-
     public CategorySelector.Category getCategory() {
         return category;
     }
@@ -46,9 +42,9 @@ public class GameService {
     }
 
     public boolean startGame() {
-        boolean answer = false;
+        boolean gameIsRunning = true;
         Printer.print(Messages.CATEGORY + category);
-        while (!answer) {
+        while (gameIsRunning) {
             System.out.println();
             System.out.println(puzzle.getPartiallyMaskedPuzzle());
             System.out.println();
@@ -57,20 +53,20 @@ public class GameService {
                 int choice = scanner.nextInt();
                 scanner.nextLine();
                 switch (choice) {
-                    case 0 -> answer = quitGame();
+                    case 0 -> gameIsRunning = quitGame();
                     case 1 -> handleBuyVowel(wheelReward);
                     case 2 -> handleBuyConsonant(wheelReward);
-                    case 3 -> answer = handleGuess(price);
+                    case 3 -> handleGuess(price);
                     default -> Printer.print(Messages.INVALID_OPTION);
                 }
             }
         }
-        return true;
+        return gameIsRunning;
     }
 
     public boolean quitGame() {
         Printer.print(Messages.GOODBYE);
-        return true;
+        return false;
     }
 
     public boolean afterGoodPuzzleGuess() {
@@ -83,7 +79,6 @@ public class GameService {
                 promptUser = false;
                 playAgain = true;
             } else if (scanner.next().equalsIgnoreCase("N")) {
-                Printer.print(Messages.GOODBYE);
                 promptUser = false;
             } else {
                 Printer.print(Messages.UNKNOWN_RESPONSE);;
@@ -106,10 +101,6 @@ public class GameService {
         return money - 100;
     }
 
-    private int buyConsonant (int money) {
-        return money - 50;
-    }
-
     public boolean showOptionsAndProcessChoice() {
         Printer.print(Messages.OPTIONS);
         if (!scanner.hasNextInt()) {
@@ -121,16 +112,20 @@ public class GameService {
     }
 
     private void handleBuyVowel(int wheelReward) {
-        Printer.print(Messages.ENTER_A_VOWEL);
-        String input = readUppercaseInput(scanner);
-        String vowels = Letters.VOWELS.getLetters();
-        if (input.length() == 1 && vowels.contains(input)) {
-            int foundVowels = foundLetterCounter(puzzle.getPuzzle(), input);
-            player.setMoney(buyVowel(player.getMoney()) + (foundVowels * wheelReward));
-            puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
-            Printer.print(Messages.YOUR_MONEY + player.getMoney());
+        if (player.getMoney() < 100) {
+            Printer.print(Messages.NOT_ENOUGH_MONEY);
         } else {
-            Printer.print(Messages.NOT_A_VOWEL);
+            Printer.print(Messages.ENTER_A_VOWEL);
+            String input = readUppercaseInput(scanner);
+            String vowels = Letters.VOWELS.getLetters();
+            if (input.length() == 1 && vowels.contains(input)) {
+                int foundVowels = foundLetterCounter(puzzle.getPuzzle(), input);
+                player.setMoney(buyVowel(player.getMoney()) + (foundVowels * wheelReward));
+                puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
+                Printer.print(Messages.YOUR_MONEY + player.getMoney());
+            } else {
+                Printer.print(Messages.NOT_A_VOWEL);
+            }
         }
     }
 
@@ -139,8 +134,8 @@ public class GameService {
         String input = readUppercaseInput(scanner);
         String consonants = Letters.CONSONANTS.getLetters();
         if (input.length() == 1 && consonants.contains(input.toUpperCase())) {
-            int foundConsonant = foundLetterCounter(puzzle.getPuzzle(), input);
-            player.setMoney(buyConsonant(player.getMoney()) + (foundConsonant * wheelReward));
+            int foundConsonants = foundLetterCounter(puzzle.getPuzzle(), input);
+            player.setMoney(player.getMoney() + (foundConsonants * wheelReward));
             puzzle.setPartiallyMaskedPuzzle(puzzle.getPartiallyMaskedPuzzle(), puzzle.getPuzzle(), input);
             Printer.print(Messages.YOUR_MONEY + player.getMoney());
         } else {
@@ -148,7 +143,7 @@ public class GameService {
         }
     }
 
-    private boolean handleGuess(int price) {
+    private void handleGuess(int price) {
         player.setMoney(takeGuess(player.getMoney()));
         Printer.print(Messages.ENTER_GUESS);
         String input = readUppercaseInput(scanner);
@@ -156,9 +151,7 @@ public class GameService {
         if (answer) {
             player.setMoney(player.getMoney() + price);
             Printer.print(Messages.YOUR_MONEY + player.getMoney());
-            return true;
         }
-        return false;
     }
 
     private boolean guessAnswer(String input, String proverb) {

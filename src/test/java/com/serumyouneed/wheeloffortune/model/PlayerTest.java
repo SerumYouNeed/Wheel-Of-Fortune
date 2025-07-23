@@ -19,23 +19,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(1000, user);
-    }
-
-    @Test
-    void addMoney() {
-        player.addMoney(100);
-        int actualResult;
-        actualResult = player.getMoney();
-        assertEquals(1100, actualResult);
-    }
-
-    @Test
-    void subtractMoney() {
-        player.subtractMoney(100);
-        int actualResult;
-        actualResult = player.getMoney();
-        assertEquals(900, actualResult);
+        player = new Player(user);
     }
 
     @Test
