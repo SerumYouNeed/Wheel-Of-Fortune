@@ -165,6 +165,9 @@ public class GameService {
     }
 
     private int takeGuess (int money) {
+        if (player.getMoney() < 100) {
+            Printer.print(Messages.NOT_ENOUGH_MONEY);
+        }
         return money - 10;
     }
 }
