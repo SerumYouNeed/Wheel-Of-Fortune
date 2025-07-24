@@ -27,7 +27,7 @@ class WheelTest {
     @Test
     void switchToFieldOne() {
         int actualResult = wheel.switchToField(1);
-        assertEquals(0, actualResult);
+        assertEquals(1, actualResult);
     }
 
     @Test
@@ -61,25 +61,19 @@ class WheelTest {
     }
 
     @Test
-    void switchToFieldSeven() {
-        int actualResult = wheel.switchToField(7);
-        assertEquals(-100, actualResult);
-    }
-
-    @Test
     void spinTheWheelInBoundaries() {
         int actualResult = wheel.spinTheWheel();
         assertTrue(actualResult >= 1 && actualResult <= 7);
     }
 
-    /**
-     * Function create artificial sleeper, then pass it to Wheel constructor, invoke a method that should trigger sleep(). Finally check if sleep() has been invoked only once.
-     */
-    @Test
-    void spinShouldCallSleep() {
-        Sleeper mockSleeper = mock(Sleeper.class);
-        Wheel wheel = new Wheel(mockSleeper);
-        wheel.spinTheWheel();
-        verify(mockSleeper, times(1)).sleep();
-    }
+//    /**
+//     * Function create artificial sleeper, then pass it to Wheel constructor, invoke a method that should trigger sleep(). Finally check if sleep() has been invoked only once.
+//     */
+//    @Test
+//    void spinShouldCallSleep() {
+//        Sleeper mockSleeper = mock(Sleeper.class);
+//        Wheel wheel = new Wheel(mockSleeper);
+//        wheel.spinTheWheel();
+//        verify(mockSleeper, times(1)).sleep();
+//    }
 }

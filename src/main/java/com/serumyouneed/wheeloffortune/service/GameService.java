@@ -144,13 +144,17 @@ public class GameService {
     }
 
     private void handleGuess(int price) {
-        player.setMoney(takeGuess(player.getMoney()));
-        Printer.print(Messages.ENTER_GUESS);
-        String input = readUppercaseInput(scanner);
-        boolean answer = guessAnswer(input, puzzle.getPuzzle());
-        if (answer) {
-            player.setMoney(player.getMoney() + price);
-            Printer.print(Messages.YOUR_MONEY + player.getMoney());
+        if (player.getMoney() >= 10) {
+            player.setMoney(takeGuess(player.getMoney()));
+            Printer.print(Messages.ENTER_GUESS);
+            String input = readUppercaseInput(scanner);
+            boolean answer = guessAnswer(input, puzzle.getPuzzle());
+            if (answer) {
+                player.setMoney(player.getMoney() + price);
+                Printer.print(Messages.YOUR_MONEY + player.getMoney());
+            }
+        } else {
+            Printer.print(Messages.NOT_ENOUGH_MONEY);
         }
     }
 
@@ -165,9 +169,6 @@ public class GameService {
     }
 
     private int takeGuess (int money) {
-        if (player.getMoney() < 100) {
-            Printer.print(Messages.NOT_ENOUGH_MONEY);
-        }
         return money - 10;
     }
 }

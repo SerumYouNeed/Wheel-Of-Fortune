@@ -10,7 +10,7 @@ class PuzzleTest {
     @Test
     void setPuzzle() {
         Puzzle puzzle = new Puzzle(new Movie(1, "Snow white", 1950));
-        String expected = "Snow white";
+        String expected = "SNOW WHITE";
         String actual = puzzle.getPuzzle();
         assertEquals(expected, actual);
     }
