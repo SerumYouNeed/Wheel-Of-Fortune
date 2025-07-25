@@ -81,7 +81,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>com.serumyouneed.wheeloffortune.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
